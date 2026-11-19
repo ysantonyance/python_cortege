@@ -1,6 +1,10 @@
 import os
 import posixpath
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'c20f7341-fb5b-40e1-aacd-a29094cd39ad'
@@ -18,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app'
 ]
 
 MIDDLEWARE = [
@@ -56,8 +61,14 @@ WSGI_APPLICATION = 'company_site.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'HOST': os.getenv('DB_HOST'),
+        'OPTIONS': {
+            'driver': os.getenv('DB_DRIVER'),
+            'trusted_connection': os.getenv('DB_TRUSTED_CONNECTION'),
+            'extra_params': os.getenv('DB_EXTRA_PARAMS'),
+        },
     }
 }
 
